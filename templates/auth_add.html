@@ -91,6 +91,7 @@ input[type=submit]:hover {
     <form method="post" action="{% url 'add_author' %}">
         {% csrf_token %}
     <div class="row">
+      <h1 style="text-align: center;">ADD NEW AUTHOR</h1>
       <div class="col-25">
         <label for="Authorname">Author Name</label>
       </div>
@@ -108,7 +109,7 @@ input[type=submit]:hover {
     </div>
     <div class="row">
         <div class="col-25">
-          <label for="Email">User Name</label>
+          <label for="Email">Email Name</label>
         </div>
         <div class="col-75">
           <input type="text" name="email" placeholder="email.." required>
