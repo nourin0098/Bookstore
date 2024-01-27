@@ -62,8 +62,6 @@ input[type=submit]:hover {
   width: 75%;
   margin-top: 6px;
 }
-
-/* Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
@@ -126,7 +124,7 @@ input[type=submit]:hover {
 
 <script>
     function cancelForm() {
-        window.location.href = "{% url 'author' %}"; // Redirect to the author list page
+        window.location.href = "{% url 'author' %}"; 
     }
 </script>
   </html>
