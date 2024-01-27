@@ -1,0 +1,104 @@
+
+{% extends 'dashboard.html' %}
+{% block content %}
+<style>
+.pagination{
+    margin: 0 ;
+    padding-top: inherit;
+}
+.pagination span{
+    display: inline-block;
+    border: 1px solid mediumturquoise;
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+}
+.pagination span:hover{
+    background: mediumturquoise;
+    color: white;
+}
+    button{
+    background-color: #04AA6D;
+    color: white;
+    padding: 2px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    float: right;
+    margin: 5px; 
+}
+    
+</style>
+
+<div class="top1">
+    <div class="search-box" id="searchBox" name="keyword">
+        <i class="uil uil-search"></i>
+    <form method="GET" action="{% url 'author' %}">
+        <input type="text" name="q" placeholder="Search here..." value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form></div>
+    <div>
+        <a style="text-decoration: none;" href="{% url 'add_author' %}"><button type="button" class="submit" id="addAuthorBtn">Add Author</button></a>
+    </div>
+</div>
+
+<div class="activity">
+    <div class="activity-data">
+        <table>
+            <thead>
+                <tr>
+                    <th class="data-title">No</th>
+                    <th class="data-title">Author name</th>
+                    <th class="data-title">User Name</th>
+                    <th class="data-title">Email</th>
+                    <th class="data-title">Action</th>
+                    <th class="data-title">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ author.authorname }}</td>
+                    <td>{{ author.username }}</td>
+                    <td>{{ author.email }}</td>
+                    <td>
+                        <a href="{% url 'edit_author' author.id %}">
+                            <button>Edit</button>
+                        </a>
+                        <a href="{% url 'remove_author' author.id %}">
+                            <button type="submit">Remove</button>
+                        </a>
+                    </td>
+                    <td><button type="button" disabled></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        <div class="pagination">
+            
+                {% if authors.has_previous %}
+                    <a href="?page={{ authors.previous_page_number }}"><span><<</span></a>
+                {% endif %}
+                {% for i in authors.paginator.page_range %}
+                <a href="?page={{i}}"><span>{{i}}</span></a>
+                {% endfor %} 
+                {% if authors.has_next %}
+                    <a href="?page={{ authors.paginator.num_pages }}"><span>>></span></a>
+                {% endif %}
+            
+        </div>
+        
+    
+</div>
+
+
+{% endblock %}
+
+{% block content1 %}
+{% endblock %}

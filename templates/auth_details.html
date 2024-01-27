@@ -1,0 +1,120 @@
+
+{% extends 'nav.html' %}
+{% block content %}
+<style>
+.pagination{
+    margin: 0 ;
+    padding-top: inherit;
+}
+.pagination span{
+    display: inline-block;
+    border: 1px solid mediumturquoise;
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+}
+.pagination span:hover{
+    background: mediumturquoise;
+    color: white;
+}
+    button{
+    background-color: #04AA6D;
+    color: white;
+    padding: 2px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    float: right;
+    margin: 5px; 
+}
+label{
+    font-weight: 600;
+    font-size: x-large;
+}
+    
+</style>
+<form method="post" style="padding: inherit;" action="">
+    <div class="row">
+      <div class="col-25">
+          <label for="Bookid">Author Name:    {{author.author.authorname}}</label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-25">
+          <label for="Bookname">Author Email:    {{author.author.email}}</label>
+      </div>
+  </div>
+</form>
+<div class="top1">
+    <div class="search-box" id="searchBox" name="keyword">
+        <i class="uil uil-search"></i>
+    <form method="GET" action="{% url 'author_details' author.id %}">
+        <input type="text" name="q" placeholder="Search here..." value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form></div>
+    <div>
+        <a style="text-decoration: none;" href="{% url 'add_book' %}"><button type="button" class="submit" id="addAuthorBtn">Add Book</button></a>
+    </div>
+</div>
+
+<div class="activity">
+    <div class="activity-data">
+        <table>
+            <thead>
+                <tr>
+                    <th class="data-title">No</th>
+                    <th class="data-title">Book Id</th>
+                    <th class="data-title">Book Name</th>
+                    <th class="data-title">Created Date</th>
+                    <th class="data-title">Action</th>
+                    <th class="data-title">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ book.bookid }}</td>
+                    <td>{{ book.bookname }}</td>
+                    <td>{{ book.created_date }}</td>
+                    <td>
+                        
+                        <a href="{% url 'book_edit' book.id  %}">
+                            <button>Edit</button>
+                        </a>
+                        <a href="{% url 'remove_book' book.id %}">
+                            <button type="submit">Remove</button>
+                        </a>
+                    </td>
+                    <td><button type="button" disabled></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        <div class="pagination">
+            
+                {% if books.has_previous %}
+                    <a href="?page={{ books.previous_page_number }}"><span><<</span></a>
+                {% endif %}
+                {% for i in books.paginator.page_range %}
+                <a href="?page={{i}}"><span>{{i}}</span></a>
+                {% endfor %} 
+                {% if books.has_next %}
+                    <a href="?page={{ books.paginator.num_pages }}"><span>>></span></a>
+                {% endif %}
+            
+        </div>
+        
+    
+</div>
+
+
+{% endblock %}
+
+{% block content1 %}
+{% endblock %}

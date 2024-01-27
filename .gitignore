@@ -1,0 +1,24 @@
+# Byte-compiled Python files
+*.pyc
+__pycache__/
+# Python virtual environment
+venv/
+*.venv/
+# Ignore compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+# Ignore database migrations
+*/migrations/
+# Ignore temporary files
+*.swp
+*.swo
+# Django-related files
+*.log
+db.sqlite3
+media/
+# # Static files (collectstatic)
+# static/
+# IDE or editor-specific files
+.vscode/
+.idea/
