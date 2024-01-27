@@ -32,20 +32,20 @@
 }
 label{
     font-weight: 600;
-    font-size: x-large;
+    font-size: 20px;
 }
     
 </style>
-<form method="post" style="padding: inherit;" action="">
+<form method="post" style="padding: inherit;" action="{% url 'author_details' author.id %}">
     <div class="row">
         <h1 style="text-align: center;">AUTHOR DETAILS AND BOOKS</h1>
       <div class="col-25">
-          <label for="Bookid">Author Name:    {{author.author.authorname}}</label>
+          <label for="Bookid">Author Name:    {{author.authorname}}</label>
       </div>
   </div>
   <div class="row">
       <div class="col-25">
-          <label for="Bookname">Author Email:    {{author.author.email}}</label>
+          <label for="Bookname">Author Email:    {{author.email}}</label>
       </div>
   </div>
 </form>
@@ -110,7 +110,12 @@ label{
                 {% endif %}
             
         </div>
+        
+    
 </div>
+
+
 {% endblock %}
+
 {% block content1 %}
 {% endblock %}

@@ -61,7 +61,7 @@
             </thead>
             <tbody>
                 {% for book in books %}
-                <tr onclick="handleRowClick('{{ book.id }}')" style="cursor: pointer;" onmouseover="this.style.backgroundColor='#f0f0f0';" onmouseout="this.style.backgroundColor='';">
+                <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ book.bookid }}</td>
                     <td>{{ book.bookname }}</td>
@@ -99,11 +99,7 @@
         
     
 </div>
-<script>
-    function handleRowClick(bookId) {
-        window.location.href = `{% url 'author_details' 0 %}`.replace('0', bookId);
-    }
-</script>
+
 
 {% endblock %}
 

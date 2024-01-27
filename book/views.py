@@ -40,33 +40,6 @@ def book_list(request):
             }
     return render(request,'books.html',context)
 
-def author_details(request,pk):
-    book = get_object_or_404(Book, pk=pk)
-    author = book.author
-    books = Book.objects.filter(author=author)
-    #searching
-    keyword = request.GET.get('q','')
-    if keyword:
-        books = books.filter(
-            Q(bookid__icontains=keyword) | 
-            Q(bookname__icontains=keyword) | 
-            Q(created_date__icontains=keyword)  
-                   
-        )
-
-    # Pagination
-    page = request.GET.get('page', 1)
-    paginator = Paginator(books, 10) 
-    try:
-        books = paginator.page(page)
-    except PageNotAnInteger:
-        books = paginator.page(1)
-    except EmptyPage:
-        books = paginator.page(paginator.num_pages)
-    context = {'author': book,'books':books,'search_query': keyword}
-    return render(request, 'auth_details.html',context)
-
-
 def add_book(request):
     authors = Author.objects.all()
     if request.method == 'POST':

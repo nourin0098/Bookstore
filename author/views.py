@@ -42,6 +42,35 @@ def author_list(request):
         'total_books': total_books,
     }
     return render(request, 'author.html', context)
+
+def author_details(request,pk):
+    author = get_object_or_404(Author, pk=pk)
+    books = Book.objects.filter(author=author)
+    #searching
+    keyword = request.GET.get('q','')
+    if keyword:
+        books = books.filter(
+            Q(bookid__icontains=keyword) | 
+            Q(bookname__icontains=keyword)  
+        )
+    # Pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(books, 10) 
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+    context = {'author': author,}
+    
+
+    context = {
+        'search_query':keyword,
+        'author': author,
+        'books': books,
+    }
+    return render(request, 'auth_details.html',context)
     
 
 def add_author(request):

@@ -60,7 +60,7 @@
             </thead>
             <tbody>
                 {% for author in authors %}
-                <tr>
+                <tr onclick="handleRowClick('{{ author.id }}')" style="cursor: pointer;" onmouseover="this.style.backgroundColor='#f0f0f0';" onmouseout="this.style.backgroundColor='';">
                     <td>{{ forloop.counter }}</td>
                     <td>{{ author.authorname }}</td>
                     <td>{{ author.username }}</td>
@@ -94,6 +94,11 @@
             
         </div>  
 </div>
+<script>
+    function handleRowClick(authorId) {
+        window.location.href = `{% url 'author_details' 0 %}`.replace('0', authorId);
+    }
+</script>
 {% endblock %}
 
 {% block content1 %}
