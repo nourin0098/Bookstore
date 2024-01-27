@@ -16,7 +16,14 @@
 			</div>
             <div class="left">
 				<div class="contact">
-					
+					{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="list-style: none;
+                color: red;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 					<form method="post" action="{% url 'login' %}">
                         {% csrf_token %}
 						<h3>SIGN IN</h3>

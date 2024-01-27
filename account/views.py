@@ -12,19 +12,23 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            login(request, user)
-            total_authors = Author.objects.count()
-            total_books = Book.objects.count()
+            if user.is_active:
+                login(request, user)
+                total_authors = Author.objects.count()
+                total_books = Book.objects.count()
 
-            context = {
-                'total_authors': total_authors,
-                'total_books': total_books,
-            }
-            return render(request, 'dashboard.html', context)
-
+                context = {
+                    'total_authors': total_authors,
+                    'total_books': total_books,
+                }
+                return render(request, 'dashboard.html', context)
+            else:
+                messages.error(request, 'Your account is not active. Please contact the administrator.')
         else:
             messages.error(request, 'Invalid credentials.')
+
     return render(request, 'login.html')
 
 @login_required
