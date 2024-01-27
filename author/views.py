@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect, get_object_or_404
+
+from book.models import Book
 from .models import Author
 from django.contrib import messages
 from django.db.models import Q
@@ -30,8 +32,17 @@ def author_list(request):
     except EmptyPage:
         authors = paginator.page(paginator.num_pages)
 
-    context = {'authors': authors,'search_query': keyword}
-    return render(request,'author.html',context)
+    total_authors = Author.objects.count()
+    total_books = Book.objects.count()
+
+    context = {
+        'authors': authors,
+        'search_query': keyword,
+        'total_authors': total_authors,
+        'total_books': total_books,
+    }
+    return render(request, 'author.html', context)
+    
 
 def add_author(request):
     if request.method == 'POST':
@@ -43,16 +54,24 @@ def add_author(request):
             authorname__iexact=authorname,
             username__iexact=username,
             email__iexact=email
-        )
+        ).first()
 
-        if existing_author.exists():
+        if existing_author:
             messages.error(request, 'Author with the same details already exists!')
         else:
             Author.objects.create(authorname=authorname, username=username, email=email)
             messages.success(request, 'Author created successfully!')
             return redirect('author')
 
-    return render(request, 'auth_add.html')
+    total_authors = Author.objects.count()
+    total_books = Book.objects.count()
+    context = {
+        'total_authors': total_authors,
+        'total_books': total_books,
+    }
+
+    return render(request, 'auth_add.html', context)
+
 
 
 def edit_author(request, pk):
@@ -78,7 +97,13 @@ def edit_author(request, pk):
             author.save()
             messages.success(request, 'Author updated successfully!')
             return redirect('author') 
-    context = {'author': author}
+    total_authors = Author.objects.count()
+    total_books = Book.objects.count()
+    context = {
+                'author': author,
+                'total_authors': total_authors,
+                'total_books': total_books,
+                }
     return render(request, 'auth_edit.html', context)
 
 def remove_author(request, pk):

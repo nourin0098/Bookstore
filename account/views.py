@@ -14,7 +14,15 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return render(request,'dashboard.html')
+            total_authors = Author.objects.count()
+            total_books = Book.objects.count()
+
+            context = {
+                'total_authors': total_authors,
+                'total_books': total_books,
+            }
+            return render(request, 'dashboard.html', context)
+
         else:
             messages.error(request, 'Invalid credentials.')
     return render(request, 'login.html')

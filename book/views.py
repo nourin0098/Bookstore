@@ -30,8 +30,14 @@ def book_list(request):
         book = paginator.page(1)
     except EmptyPage:
         book = paginator.page(paginator.num_pages)
-
-    context = {'books': book,'search_query': keyword}
+    total_authors = Author.objects.count()
+    total_books = Book.objects.count()
+    context = {
+                'books': book,
+                'search_query': keyword,
+                'total_authors': total_authors,
+                'total_books': total_books,
+            }
     return render(request,'books.html',context)
 
 def author_details(request,pk):
@@ -80,7 +86,13 @@ def add_book(request):
             Book.objects.create(bookid=bookid, bookname=bookname, author=author)
             messages.success(request, 'Book created successfully!')
             return redirect('books')
-    context = {'authors': authors}
+    total_authors = Author.objects.count()
+    total_books = Book.objects.count()
+    context = {
+                'authors': authors,
+                'total_authors': total_authors,
+                'total_books': total_books,
+            }
     return render(request, 'book_add.html',context)
 
 def book_edit(request, pk):
@@ -107,8 +119,14 @@ def book_edit(request, pk):
             book.save()
             messages.success(request, 'Book updated successfully!')
             return redirect('books')
-
-    context = {'book': book, 'authors': authors}
+    total_authors = Author.objects.count()
+    total_books = Book.objects.count()
+    context = {
+                'book': book, 
+                'authors': authors,
+                'total_authors': total_authors,
+                'total_books': total_books,
+            }
     return render(request, 'book_edit.html', context)
 
 def remove_book(request, pk):
