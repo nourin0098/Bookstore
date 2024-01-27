@@ -85,12 +85,11 @@ def edit_author(request, pk):
             authorname__iexact=new_authorname,
             username__iexact=new_username,
             email__iexact=new_email
-        ).exclude(pk=pk)  # Exclude the current author from the check
+        ).exclude(pk=pk)
 
         if existing_author.exists():
             messages.error(request, 'Author with the same details already exists!')
         else:
-            # Save the changes if no validation errors
             author.authorname = new_authorname
             author.username = new_username
             author.email = new_email
