@@ -8,8 +8,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import AuthorSerializer
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def author_list(request):
     authors = Author.objects.all() 
 
@@ -43,6 +45,7 @@ def author_list(request):
     }
     return render(request, 'author.html', context)
 
+@login_required
 def author_details(request,pk):
     author = get_object_or_404(Author, pk=pk)
     books = Book.objects.filter(author=author)
@@ -72,7 +75,7 @@ def author_details(request,pk):
     }
     return render(request, 'auth_details.html',context)
     
-
+@login_required
 def add_author(request):
     if request.method == 'POST':
         authorname = request.POST.get('authorname')
@@ -102,7 +105,7 @@ def add_author(request):
     return render(request, 'auth_add.html', context)
 
 
-
+@login_required
 def edit_author(request, pk):
     author = get_object_or_404(Author, pk=pk)
 
@@ -134,6 +137,7 @@ def edit_author(request, pk):
                 }
     return render(request, 'auth_edit.html', context)
 
+@login_required
 def remove_author(request, pk):
     author = Author.objects.get(pk=pk)
     if author:

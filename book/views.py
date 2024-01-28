@@ -7,8 +7,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import BookSerializer
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def book_list(request):
     book = Book.objects.all() 
     #searching
@@ -40,6 +42,7 @@ def book_list(request):
             }
     return render(request,'books.html',context)
 
+@login_required
 def add_book(request):
     authors = Author.objects.all()
     if request.method == 'POST':
@@ -68,6 +71,7 @@ def add_book(request):
             }
     return render(request, 'book_add.html',context)
 
+@login_required
 def book_edit(request, pk):
     book = get_object_or_404(Book, pk=pk)
     authors = Author.objects.all()
@@ -102,6 +106,7 @@ def book_edit(request, pk):
             }
     return render(request, 'book_edit.html', context)
 
+@login_required
 def remove_book(request, pk):
     book = Book.objects.get(pk=pk)
     if book:
